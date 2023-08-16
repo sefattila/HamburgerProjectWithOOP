@@ -22,11 +22,19 @@ namespace HamburgerProject
         private void btnEkle_Click(object sender, EventArgs e)
         {
             //try catch yapılacak
-            EkstraMalzeme ekstra= new EkstraMalzeme();
-            ekstra.Ad = txtAd.Text;
-            ekstra.Fiyat = (double)nudFiyat.Value;
-            MainMenu.EkstraMalzeme.Add(ekstra);
-            Helper.Temizle(this.Controls);
+            EkstraMalzeme ekstra = new EkstraMalzeme();
+            try
+            {
+                ekstra.Ad = txtAd.Text;
+                ekstra.Fiyat = (double)nudFiyat.Value;
+                MainMenu.EkstraMalzeme.Add(ekstra);
+                Helper.Temizle(this.Controls);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                Helper.Temizle(this.Controls);
+            }
         }
     }
 }

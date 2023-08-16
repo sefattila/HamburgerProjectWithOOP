@@ -8,7 +8,23 @@ namespace HamburgerProject.Abstract
 {
     public abstract class Urun
     {
-        public string Ad { get; set; }
-        public double Fiyat { get; set; }
+        private string _ad;
+        private double _fiyat;
+        public string Ad {
+            get { return _ad; }
+            set
+            {
+                if (!string.IsNullOrEmpty(value)) _ad = value;
+                else throw new Exception("Adı Kısmını Boş Geçemezsiniz");
+            }
+        }
+        public double Fiyat {
+            get { return _fiyat; }
+            set
+            {
+                if (value >= 1) _fiyat = value;
+                else throw new Exception("Fiyat 0 Girilemez");
+            } 
+        }
     }
 }

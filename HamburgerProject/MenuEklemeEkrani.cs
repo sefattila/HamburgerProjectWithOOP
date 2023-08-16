@@ -21,11 +21,19 @@ namespace HamburgerProject
 
         private void btnEkle_Click(object sender, EventArgs e)
         {
-            Menu menu=new Menu();
-            menu.Ad=txtAd.Text;
-            menu.Fiyat = (double)nudFiyat.Value;
-            MainMenu.Menuler.Add(menu);
-            Helper.Temizle(this.Controls);
+            Menu menu = new Menu();
+            try
+            {
+                menu.Ad = txtAd.Text;
+                menu.Fiyat = (double)nudFiyat.Value;
+                MainMenu.Menuler.Add(menu);
+                Helper.Temizle(this.Controls);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                Helper.Temizle(this.Controls);
+            }
         }
     }
 }

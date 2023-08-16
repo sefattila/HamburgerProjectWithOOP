@@ -46,44 +46,53 @@ namespace HamburgerProject
 
         private void btnEkle_Click(object sender, EventArgs e)
         {
-            if (nudAdet.Value <= 0) //adet 0 girilirse hiç bir şey yapmasın o yüzden return; yazdık
-            {
-                MessageBox.Show("Adet 0 Girdiniz");
-                return;
-            }
             Siparis siparis = new Siparis();
-            siparis.Menu = (Menu)cboxMenu.SelectedItem; //cast işlemi
-            foreach (CheckBox checkBox in flpEkstraMalzemeler.Controls)
+            try
             {
-                EkstraMalzeme ekstraMalzeme = (EkstraMalzeme)checkBox.Tag;
-                siparis.Sos.Add(ekstraMalzeme);
-            }
+                //Bu kısmı encapsulation ile de kontol ettik
+                //adet 0 girilirse hiç bir şey yapmasın o yüzden return; yazdık
+                //if (nudAdet.Value <= 0) 
+                //{
+                //    MessageBox.Show("Adet 0 Girdiniz");
+                //    return;
+                //}
+                siparis.Menu = (Menu)cboxMenu.SelectedItem; //cast işlemi
+                foreach (CheckBox checkBox in flpEkstraMalzemeler.Controls)
+                {
+                    EkstraMalzeme ekstraMalzeme = (EkstraMalzeme)checkBox.Tag;
+                    siparis.Sos.Add(ekstraMalzeme);
+                }
 
-            if (rbOrta.Checked)
+                if (rbOrta.Checked)
+                {
+                    siparis.Boy = Boy.Orta;
+                }
+                else if (rbBuyuk.Checked)
+                {
+                    siparis.Boy = Boy.Büyük;
+                }
+                else siparis.Boy = Boy.Küçük;
+
+                //ikinci yöntem group box içinde dönerek yazabiliriz
+                //foreach (RadioButton radioButton in groupBox1.Controls)
+                //{
+                //    if (radioButton.Checked)
+                //    {
+                //        siparis.Boy = (Boy)Enum.Parse(typeof(Boy), radioButton.Text);
+                //    }
+                //}
+
+                siparis.Adet = (int)nudAdet.Value;
+                _alinanSiparisler.Add(siparis);
+                lboxSiparisler.Items.Add(siparis);
+                _toplam += siparis.ToplamFiyat;
+                lblToplam.Text = _toplam.ToString("C2");
+                Helper.Temizle(this.Controls);
+            }
+            catch (Exception ex)
             {
-                siparis.Boy = Boy.Orta;
+                MessageBox.Show(ex.Message);
             }
-            else if (rbBuyuk.Checked)
-            {
-                siparis.Boy = Boy.Büyük;
-            }
-            else siparis.Boy = Boy.Küçük;
-
-            //ikinci yöntem group box içinde dönerek yazabiliriz
-            //foreach (RadioButton radioButton in groupBox1.Controls)
-            //{
-            //    if (radioButton.Checked)
-            //    {
-            //        siparis.Boy = (Boy)Enum.Parse(typeof(Boy), radioButton.Text);
-            //    }
-            //}
-
-            siparis.Adet = (int)nudAdet.Value;
-
-            _alinanSiparisler.Add(siparis);
-            lboxSiparisler.Items.Add(siparis);
-            _toplam += siparis.ToplamFiyat;
-            lblToplam.Text = _toplam.ToString("C2");
             Helper.Temizle(this.Controls);
         }
 
